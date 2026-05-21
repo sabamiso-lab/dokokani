@@ -526,6 +526,18 @@ header {
   align-items: center;
 }
 
+.section-actions {
+  display: flex;
+  gap: 8px;
+}
+
+#btn-final-boon {
+  width: auto;
+  padding: 8px 24px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 10px rgba(0, 168, 255, 0.2);
+}
+
 .section-title {
   font-size: 1.25rem;
   display: flex;
@@ -1207,20 +1219,22 @@ footer {
     gap: 10px;
   }
 
-  .section-header > div {
+  .section-actions {
     flex-direction: column;
     width: 100%;
+    gap: 8px;
   }
 
   .btn-secondary {
     justify-content: center;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
   }
 
   #btn-final-boon {
-    width: 100% !important;
-    padding: 12px !important;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
   }
 }
 
