@@ -284,20 +284,22 @@ function handleDrawCandidates() {
 
   // 4. UIの更新
   renderCandidates(currentCandidates);
-  initAndPopulateMap(currentStartPoint, currentCandidates);
 
   // ビューの切り替え（初期の空状態を非表示にし、地図とカードを表示）
+  // 先に要素を表示（display: block）にすることで、Leafletがコンテナサイズを正しく認識できるようにする！
   document.getElementById('state-empty').style.display = 'none';
   document.getElementById('state-map').style.display = 'block';
   document.getElementById('state-candidates').style.display = 'block';
   document.getElementById('state-result').style.display = 'none';
 
-  // 地図の再描画を確実にする
-  if (currentMap) {
-    setTimeout(() => {
+  // 地図を初期化・描画（表示されたコンテナで行う）
+  // わずかなディレイを挟み、DOM描画・リレイアウトを確実に反映させてから実行する
+  setTimeout(() => {
+    if (currentMap) {
       currentMap.invalidateSize();
-    }, 100);
-  }
+    }
+    initAndPopulateMap(currentStartPoint, currentCandidates);
+  }, 50);
 
   // スクロールしてカードエリアへ案内
   document.getElementById('state-candidates').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -415,11 +417,27 @@ function initAndPopulateMap(start, candidates) {
     .openPopup();
 
   // 2. 候補地のピンを設定 (スカイブルーのアイコン)
-  const bounds = L.latLngBounds([[start.lat, start.lng]]);
+  // 出発地を中心に全候補地がきれいに収まる対称なBoundsを計算する
+  let maxDelLat = 0;
+  let maxDelLng = 0;
+
+  candidates.forEach(spot => {
+    const delLat = Math.abs(spot.lat - start.lat);
+    const delLng = Math.abs(spot.lng - start.lng);
+    if (delLat > maxDelLat) maxDelLat = delLat;
+    if (delLng > maxDelLng) maxDelLng = delLng;
+  });
+
+  // 安全のための最小値 (近すぎる場合の極端なズームを防ぐ)
+  maxDelLat = Math.max(maxDelLat, 0.05);
+  maxDelLng = Math.max(maxDelLng, 0.05);
+
+  const southWest = L.latLng(start.lat - maxDelLat, start.lng - maxDelLng);
+  const northEast = L.latLng(start.lat + maxDelLat, start.lng + maxDelLng);
+  const bounds = L.latLngBounds(southWest, northEast);
 
   candidates.forEach((spot, idx) => {
     const latLng = [spot.lat, spot.lng];
-    bounds.extend(latLng);
 
     const letter = String.fromCharCode(65 + idx); // A, B, C, D
     const candidateIcon = L.divIcon({
