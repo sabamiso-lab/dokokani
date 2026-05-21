@@ -878,6 +878,314 @@ export const driveSpots = [
     image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
     tags: ["美瑛パッチワーク丘陵", "虹色のお花畑四季彩", "極上の直線砂利道"],
     address: "北海道上川郡美瑛町新星第三"
+  },
+  
+  // ==========================================
+  // 【追加】中距離（長野・塩尻から片道2〜4時間 / 130〜270km）: 10選
+  // ==========================================
+  {
+    id: "nasu_highland",
+    name: "那須高原・那須平成の森",
+    pref: "栃木県",
+    category: "nature",
+    lat: 37.0945,
+    lng: 140.0150,
+    description: "那須連山の麓に広がる広大な高原。かつて御用邸用地だった豊かな森を散策でき、四季折々の美しい渓谷や、澄んだ高原の空気の中で心身ともにリフレッシュできます。",
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80",
+    tags: ["御用邸の森", "高原散策", "那須温泉郷隣接"],
+    address: "栃木県那須郡那須町高久丙"
+  },
+  {
+    id: "hakone_owakudani",
+    name: "箱根大涌谷・ジオパーク温泉",
+    pref: "神奈川県",
+    category: "onsen",
+    lat: 35.2425,
+    lng: 139.0195,
+    description: "約3,000年前の噴火でできた荒々しい火口跡。白煙が立ち込める大迫力の絶景を眺めながら、1つ食べると寿命が7年延びると言われる名物「黒たまご」を味わえます。",
+    image: "https://images.unsplash.com/photo-1542044896530-05d85be9b11a?auto=format&fit=crop&w=600&q=80",
+    tags: ["名物黒たまご", "火山ガス噴煙", "箱根温泉リゾート"],
+    address: "神奈川県足柄下郡箱根町仙石原1251"
+  },
+  {
+    id: "fukui_dinosaur",
+    name: "福井県立恐竜博物館",
+    pref: "福井県",
+    category: "resort",
+    lat: 36.1420,
+    lng: 136.5065,
+    description: "世界三大恐竜博物館の一つに数えられる、恐竜ファン垂涎の巨大ミュージアム。40体以上の全身骨格や、動く超リアルな恐竜ロボットが大迫力で迎えてくれます。",
+    image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80",
+    tags: ["世界三大恐竜博物館", "動く大型ロボット", "化石発掘体験"],
+    address: "福井県勝山市村岡町寺尾51-11"
+  },
+  {
+    id: "izu_jogasaki",
+    name: "伊豆半島・城ヶ崎海岸の吊り橋",
+    pref: "静岡県",
+    category: "nature",
+    lat: 34.8875,
+    lng: 139.1120,
+    description: "大室山の噴火で流出した溶岩が海に削られてできた、約9kmの険しい絶壁海岸。高さ23m、長さ48mの「門脇つり橋」から見下ろす激しい波しぶきはスリル満点です。",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+    tags: ["スリル満点吊り橋", "溶岩絶壁海岸", "伊豆シーサイドドライブ"],
+    address: "静岡県伊東市富戸"
+  },
+  {
+    id: "mikawabay_island",
+    name: "知多・日間賀島タコづくし",
+    pref: "愛知県",
+    category: "resort",
+    lat: 34.7085,
+    lng: 136.9910,
+    description: "三河湾に浮かぶ「タコとフグの島」。知多半島の先端から高速船ですぐアクセスでき、名物のたこ飯や、ゆでたて熱々のタコ丸ごと一杯をハサミで切って豪快に味わえます。",
+    image: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80",
+    tags: ["タコとフグの島", "高速船クルーズ", "絶品海鮮グルメ"],
+    address: "愛知県知多郡南知多町日間賀島"
+  },
+  {
+    id: "hikone_castle",
+    name: "国宝 彦根城・びわ湖城下町",
+    pref: "滋賀県",
+    category: "history",
+    lat: 35.2764,
+    lng: 136.2518,
+    description: "現存天守十二城の一つで、美しい国宝天守を誇る名城。井伊直政ゆかりの風格ある城壁や、人気のマスコット「ひこにゃん」が有名。夢京橋キャッスルロードの散策も魅力です。",
+    image: "https://images.unsplash.com/photo-1578469645742-46cae010e5d4?auto=format&fit=crop&w=600&q=80",
+    tags: ["国宝天守", "ひこにゃん聖地", "歴史的城下町"],
+    address: "滋賀県彦根市金亀町1-1"
+  },
+  {
+    id: "oze_marsh",
+    name: "尾瀬ヶ原・天空の湿原トレック",
+    pref: "群馬県",
+    category: "nature",
+    lat: 36.9320,
+    lng: 139.2315,
+    description: "日本最大の山岳湿原。至仏山と燧ヶ岳の美しいシルエットを背に、どこまでも延びる木道を歩きながら、初夏のミズバショウや秋の草紅葉を満喫する極上のハイキングを楽しめます。",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本最大山岳湿原", "遥かなる尾瀬木道", "水芭蕉と初夏高山植物"],
+    address: "群馬県利根郡片品村戸倉"
+  },
+  {
+    id: "gokayama_village",
+    name: "世界遺産 五箇山合掌造り集落",
+    pref: "富山県",
+    category: "history",
+    lat: 36.4256,
+    lng: 136.9354,
+    description: "白川郷とともに世界遺産に登録された、山深い伝統集落。のどかな日本の原風景がそのまま息づいており、急勾配の茅葺き民家が立ち並ぶ景観は四季を通して絵画のような美しさです。",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
+    tags: ["世界文化遺産", "茅葺き合掌造り", "日本の原風景"],
+    address: "富山県南砺市相倉"
+  },
+  {
+    id: "chirihama_driveway",
+    name: "千里浜なぎさドライブウェイ",
+    pref: "石川県",
+    category: "resort",
+    lat: 36.8222,
+    lng: 136.7570,
+    description: "日本で唯一、一般の乗用車やバイクで波打ち際の砂浜を走ることができる超爽快ドライビングルート。きめ細かい砂が固く締まっており、潮風を感じながら並走する爽快感は格別です。",
+    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本唯一の砂浜道路", "波打ち際マイカードライブ", "能登半島エントランス"],
+    address: "石川県羽咋市千里浜町"
+  },
+  {
+    id: "mishima_skywalk",
+    name: "三島スカイウォーク・富士山絶景",
+    pref: "静岡県",
+    category: "nature",
+    lat: 35.1555,
+    lng: 138.9745,
+    description: "日本一長い（全長400m）歩行者専用の巨大吊り橋。遮るもののない駿河湾の大パノラマと、背後にそびえ立つ真っ白な富士山を橋の上から空中散歩のように一望できます。",
+    image: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本最長吊り橋", "富士山大パノラマ", "ロングジップライン体験"],
+    address: "静岡県三島市笹原新田313"
+  },
+
+  // ==========================================
+  // 【追加】長距離（長野・塩尻から片道4時間以上 / 270km超）: 15選
+  // ==========================================
+  {
+    id: "banpaku_park",
+    name: "大阪 万博記念公園と太陽の塔",
+    pref: "大阪府",
+    category: "resort",
+    lat: 34.8111,
+    lng: 135.5302,
+    description: "1970年大阪万博の跡地に造られた広大な公園。岡本太郎がデザインした象徴的な「太陽の塔」がそびえ立ち、四季の花々と日本庭園、レトロな万博遺産の数々を楽しめます。",
+    image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80",
+    tags: ["岡本太郎・太陽の塔", "万博メモリアルパーク", "広大な日本庭園"],
+    address: "大阪府吹田市千里万博公園1-1"
+  },
+  {
+    id: "awaji_hanasajiki",
+    name: "淡路島・あわじ花さじき",
+    pref: "兵庫県",
+    category: "nature",
+    lat: 34.4555,
+    lng: 134.9980,
+    description: "明石海峡大橋を渡った先にある、天空のお花畑。なだらかな丘一面に、菜の花やサルビアなど色彩豊かな花々がグラデーションを描き、背後の青い大阪湾と溶け合うパノラマは圧巻です。",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+    tags: ["淡路島絶景テラス", "海と花のパノラマ", "明石海峡大橋ドライブ"],
+    address: "兵庫県淡路市楠本2805-7"
+  },
+  {
+    id: "amanohashidate",
+    name: "京都・日本三景 天橋立ビューランド",
+    pref: "京都府",
+    category: "nature",
+    lat: 35.5683,
+    lng: 135.1915,
+    description: "日本三景の一つで、宮津湾を塞ぐように約3.6km続く白砂青松の奇跡の回廊。股の間から覗くと天に架かる緑の龍のように見える「股のぞき」が有名な絶景ポイントです。",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本三景の緑回廊", "股のぞき龍の昇天", "松並木レンタサイクル"],
+    address: "京都府宮津市文珠"
+  },
+  {
+    id: "maruyama_senmaida",
+    name: "三重・熊野古道 丸山千枚田",
+    pref: "三重県",
+    category: "nature",
+    lat: 33.8615,
+    lng: 135.9730,
+    description: "「日本一の棚田」と称される、約1,340枚の小さな水田が幾何学模様を描く巨大な棚田群。熊野の深い緑の山々に囲まれ、水が張られた春の夕暮れは鏡のように輝く絶景となります。",
+    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本一の棚田群", "熊野の歴史自然", "幾何学模様의鏡水面"],
+    address: "三重県熊野市紀和町丸山"
+  },
+  {
+    id: "itsukushima_shrine",
+    name: "世界遺産 宮島・厳島神社",
+    pref: "広島県",
+    category: "history",
+    lat: 34.2960,
+    lng: 132.3198,
+    description: "海中に建つ真っ跨な大鳥居と寝殿造りの社殿が織りなす、世界文化遺産の神秘宮殿。潮が満ちると社殿全体が海に浮いているかのように見え、日本の古代美の極みを感じられます。",
+    image: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=600&q=80",
+    tags: ["世界文化遺産", "海に浮かぶ赤い大鳥居", "宮島名物もみじ饅頭"],
+    address: "広島県廿日市市宮島町1-1"
+  },
+  {
+    id: "tsunoshima_bridge",
+    name: "山口 角島大橋・コバルトブルードライブ",
+    pref: "山口県",
+    category: "nature",
+    lat: 34.3533,
+    lng: 130.8905,
+    description: "車のCMでも度々登場する、日本屈指の絶景道路。コバルトブルーに輝く日本海の上を真っ直ぐ突き抜ける全長1,780mの白い橋は、車で走るだけで天国を行くような感動を味わえます。",
+    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    tags: ["コバルトブルーの海を疾走", "日本一美しい道路橋", "白い砂浜角島灯台"],
+    address: "山口県下関市豊北町大字神田"
+  },
+  {
+    id: "akiyoshidai_road",
+    name: "山口・秋吉台カルデラロード",
+    pref: "山口県",
+    category: "nature",
+    lat: 34.2255,
+    lng: 131.3032,
+    description: "日本最大級のカルスト台地を貫く爽快なドライブコース。草原の中に無数の白い石灰岩が羊の群れのように点在する、日本離れした不思議でダイナミックな景観の中を駆け抜けることができます。",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本最大カルスト台地", "羊の群れのような石灰岩", "大鍾乳洞・秋芳洞隣接"],
+    address: "山口県美祢市秋芳町秋吉"
+  },
+  {
+    id: "iya_kazurabashi",
+    name: "徳島 秘境祖谷・かずら橋と渓谷",
+    pref: "徳島県",
+    category: "history",
+    lat: 33.8765,
+    lng: 133.8395,
+    description: "日本三奇橋の一つで、シラクチカズラ等の植物のつるを編んで造られたスリル限界の吊り橋。一歩踏み出すたびにギシギシと揺れ、足元に広がる激流を木々の隙間から覗く体験は冒険そのものです。",
+    image: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本三奇橋の植物吊り橋", "激揺れ冒険トレック", "四国の秘境大歩危祖谷"],
+    address: "徳島県三好市西祖谷山村善徳162-2"
+  },
+  {
+    id: "izumo_taisha",
+    name: "島根・出雲大社と神話の参道",
+    pref: "島根県",
+    category: "history",
+    lat: 35.4014,
+    lng: 132.6855,
+    description: "神々が集う、日本最大級の縁結びの聖地。神楽殿にある長さ13.6m、重さ5.2トンを誇る日本一の「巨大大注連縄（おおしめなわ）」は圧倒的なスケール感。参道のそば店巡りも名物です。",
+    image: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=600&q=80",
+    tags: ["縁結び大本山", "日本最大の超巨大注連縄", "出雲名物割子そば"],
+    address: "島根県出雲市大社町杵築東195"
+  },
+  {
+    id: "oirase_canyon",
+    name: "秋田/青森・十和田湖と奥入瀬渓流",
+    pref: "青森県/秋田県",
+    category: "nature",
+    lat: 40.4475,
+    lng: 140.8970,
+    description: "豊かな落葉広葉樹の森の中に流れる、日本を代表する清流。車道のすぐ隣に激しい瀬や滝が幾重にも連続する躍動的な自然があり、木漏れ日とマイナスイオンを浴びながら森林浴ドライブを楽しめます。",
+    image: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本屈指のマイナスイオン渓流", "十和田湖ブルーの大パノラマ", "銚子大滝と緑苔岩"],
+    address: "青森県十和田市大字奥瀬"
+  },
+  {
+    id: "chusonji_golden",
+    name: "岩手 平泉・世界遺産 中尊寺金色堂",
+    pref: "岩手県",
+    category: "history",
+    lat: 39.0016,
+    lng: 141.1002,
+    description: "奥州藤原氏が築いた仏教王国の最高傑作。天治元年（1124年）に上棟された金色堂は、内外が皆金箔で覆われ、螺鈿や象嵌などの極美工芸が施された極楽浄土の縮図です。",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
+    tags: ["世界文化遺産", "内外金箔の金色堂", "奥州平泉藤原氏メモリアル"],
+    address: "岩手県西磐井郡平泉町平泉衣関202"
+  },
+  {
+    id: "ginzan_onsen_taisho",
+    name: "山形・銀山温泉の大正ロマン街",
+    pref: "山形県",
+    category: "onsen",
+    lat: 38.5701,
+    lng: 140.5302,
+    description: "大正から昭和初期に建てられた、ノスタルジックな木造バルコニー温泉旅館が銀山川の両岸に立ち並ぶ温泉郷。夕暮れ時にガス灯が一斉にともり、雪が降り積もる冬景色は完全に絵本の世界です。",
+    image: "https://images.unsplash.com/photo-1542044896530-05d85be9b11a?auto=format&fit=crop&w=600&q=80",
+    tags: ["大正ロマン木造建築", "ガス灯ノスタルジー夜景", "冬の雪景色大絶景"],
+    address: "山形県尾花沢市大字銀山新畑"
+  },
+  {
+    id: "matsushima_bay",
+    name: "宮城・日本三景 松島湾遊覧",
+    pref: "宮城県",
+    category: "nature",
+    lat: 38.3718,
+    lng: 141.0620,
+    description: "日本三景の一つに選ばれた、松島湾に浮かぶ260余りの小さな緑の島々。松尾芭蕉がその美しさに言葉を失ったとされる絶景を、観光船の甲板から潮風を浴びながら眺められます。焼き立て牡蠣も絶品。",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+    tags: ["日本三景の松林島", "芭蕉も絶賛の浮島パノラマ", "松島名物焼き牡蠣食べ放題"],
+    address: "宮城県宮城郡松島町松島"
+  },
+  {
+    id: "dazaifu_shrine",
+    name: "福岡・太宰府天満宮と建築参道",
+    pref: "福岡県",
+    category: "history",
+    lat: 33.5215,
+    lng: 130.5348,
+    description: "学問の神様・菅原道真を祀る、全国天満宮の総本宮。境内には約6,000本の美しい梅（飛梅）が咲き、建築家・隈研吾設計の斬新なスターバックスや、名物の香ばしい焼き「梅ヶ枝餅」の食べ歩きを楽しめます。",
+    image: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=600&q=80",
+    tags: ["学問の神様本山", "隈研吾木組みモダン建築", "梅ヶ枝餅アツアツ食べ歩き"],
+    address: "福岡県太宰府市宰府4-7-1"
+  },
+  {
+    id: "takachiho_gorge",
+    name: "宮崎・高千穂峡の神話渓谷",
+    pref: "宮崎県",
+    category: "nature",
+    lat: 32.7015,
+    lng: 131.3005,
+    description: "阿蘇山の火山活動でできた、柱状節理の切り立った深い渓谷。日本の滝百選「真名井の滝」が激しく流れ落ちる絶壁の間をレンタル貸しボートでくぐり抜ける体験は、天孫降臨の神秘に包まれます。",
+    image: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&w=600&q=80",
+    tags: ["天孫降臨の神話渓谷", "真名井の滝ボート探検", "阿蘇火山溶岩の柱状絶壁"],
+    address: "宮崎県西臼杵郡高千穂町大字三田井"
   }
 ];
 
