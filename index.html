@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>どこかへブーン！ | ドライブ目的地ガチャ決定アプリ</title>
+  <meta name="description" content="JRの「どこかにビューン！」が自動車（ドライブ）版になって登場！出発地と移動時間を選ぶだけで、魅力的な4つの観光地からランダムで1つの目的地を決定します。ワクワクする旅に出かけましょう！">
+  
+  <!-- OGP Meta Tags -->
+  <meta property="og:title" content="どこかへブーン！ | ドライブ目的地ガチャ決定アプリ">
+  <meta property="og:description" content="出発地と移動時間を選ぶだけで、4つの魅力的な候補からスロット演出で1つの目的地を決定する、ワクワクいっぱいのドライブ計画SPA。">
+  <meta property="og:type" content="website">
+  
+  <!-- Stylesheets & Fonts -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Leaflet.js Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+        crossorigin="" />
+        
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- ヘッダー -->
+    <header>
+      <div class="logo">
+        <div class="logo-icon">
+          <i data-lucide="car"></i>
+        </div>
+        <h1>どこかへブーン！<span class="logo-sub">FOR DRIVE</span></h1>
+      </div>
+      <div class="header-actions">
+        <button id="btn-gps" class="badge-location" title="現在地（最寄りの出発都市）を自動で設定します">
+          <i data-lucide="map-pin"></i>
+          <span id="gps-status">GPSで現在地を設定</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="main-grid">
+      <!-- 左側：コントロールパネル -->
+      <aside class="panel">
+        <h2 class="panel-title">
+          <i data-lucide="compass"></i>
+          ドライブ条件設定
+        </h2>
+        
+        <!-- 出発地 -->
+        <div class="form-group">
+          <label for="select-start">出発地を選択</label>
+          <div class="input-wrapper">
+            <span class="input-icon"><i data-lucide="navigation"></i></span>
+            <select id="select-start" class="form-control" aria-label="出発地">
+              <!-- JSで動的に追加されます -->
+            </select>
+          </div>
+        </div>
+
+        <!-- 許容ドライブ時間 -->
+        <div class="form-group">
+          <label>ドライブ時間</label>
+          <div class="drive-time-options">
+            <label class="time-option">
+              <input type="radio" name="drive-time" value="short" checked>
+              <div class="time-option-card">
+                <div class="time-icon-bg"><i data-lucide="coffee"></i></div>
+                <div class="time-info">
+                  <span class="time-label">ちょっとそこまで</span>
+                  <span class="time-desc">片道1〜2時間 (〜120km)</span>
+                </div>
+              </div>
+            </label>
+            <label class="time-option">
+              <input type="radio" name="drive-time" value="medium">
+              <div class="time-option-card">
+                <div class="time-icon-bg"><i data-lucide="map"></i></div>
+                <div class="time-info">
+                  <span class="time-label">しっかりドライブ</span>
+                  <span class="time-desc">片道2〜4時間 (120〜250km)</span>
+                </div>
+              </div>
+            </label>
+            <label class="time-option">
+              <input type="radio" name="drive-time" value="long">
+              <div class="time-option-card">
+                <div class="time-icon-bg"><i data-lucide="milestone"></i></div>
+                <div class="time-info">
+                  <span class="time-label">おでかけ大冒険</span>
+                  <span class="time-desc">片道4時間以上 (250km超)</span>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- カテゴリ（テーマ） -->
+        <div class="form-group">
+          <label>おでかけの目的（複数可）</label>
+          <div class="theme-options">
+            <label class="theme-option">
+              <input type="checkbox" name="theme" value="nature" checked>
+              <span class="theme-option-pill"><i data-lucide="trees"></i>絶景・自然</span>
+            </label>
+            <label class="theme-option">
+              <input type="checkbox" name="theme" value="onsen" checked>
+              <span class="theme-option-pill"><i data-lucide="droplets"></i>名湯・温泉</span>
+            </label>
+            <label class="theme-option">
+              <input type="checkbox" name="theme" value="history" checked>
+              <span class="theme-option-pill"><i data-lucide="castle"></i>歴史・レトロ</span>
+            </label>
+            <label class="theme-option">
+              <input type="checkbox" name="theme" value="resort" checked>
+              <span class="theme-option-pill"><i data-lucide="palmtree"></i>体験・リゾート</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 決定ボタン -->
+        <button id="btn-draw" class="btn-boon">
+          <i data-lucide="sparkles"></i>
+          候補地を4つ選ぶ！
+        </button>
+      </aside>
+
+      <!-- 右側：メインビューエリア -->
+      <section class="view-area">
+        
+        <!-- 初期・未選択状態の表示 -->
+        <div id="state-empty" class="empty-state">
+          <div class="empty-icon-container">
+            <i data-lucide="map-pinned"></i>
+          </div>
+          <h2>旅の計画をはじめよう！</h2>
+          <p>左側の条件設定パネルから出発地とドライブ時間、興味のあるおでかけテーマを選択して、「候補地を4つ選ぶ！」ボタンを押してください。</p>
+        </div>
+
+        <!-- 地図表示エリア（非表示スタート、検索時に表示） -->
+        <div id="state-map" class="map-container" style="display: none;">
+          <div id="map"></div>
+          <div class="map-overlay-info">
+            <i data-lucide="info" style="display: inline-block; vertical-align: middle; width: 14px; height: 14px; margin-right: 4px;"></i>
+            地図上のピンをクリックすると、スポットの詳細が表示されます
+          </div>
+        </div>
+
+        <!-- 候補地カードセクション（非表示スタート） -->
+        <div id="state-candidates" class="candidates-section" style="display: none;">
+          <div class="section-header">
+            <h3 class="section-title">
+              <i data-lucide="shuffle"></i>
+              行き先候補 <span>4選</span>
+            </h3>
+            <div style="display: flex; gap: 8px;">
+              <button id="btn-reshuffle" class="btn-secondary">
+                <i data-lucide="refresh-cw"></i>
+                候補を再シャッフル
+              </button>
+              <button id="btn-final-boon" class="btn-boon" style="width: auto; padding: 8px 24px; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(0, 168, 255, 0.2);">
+                <i data-lucide="play"></i>
+                どこかへブーン！する
+              </button>
+            </div>
+          </div>
+          
+          <!-- 4つのカードグリッド -->
+          <div id="candidates-grid" class="cards-grid">
+            <!-- JSで動的にカードが挿入されます -->
+          </div>
+        </div>
+
+        <!-- 最終目的地 結果表示セクション（非表示スタート） -->
+        <div id="state-result" class="result-section">
+          <div class="result-header">
+            <h3 style="font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="party-popper"></i>
+              目的地決定！安全運転で行ってらっしゃい！
+            </h3>
+            <span id="result-dist-badge" class="result-badge">
+              <!-- 距離・所要時間がJSで挿入されます -->
+            </span>
+          </div>
+          <div class="result-body">
+            <div class="result-img-wrapper">
+              <img id="result-img" src="" alt="決定スポット画像">
+            </div>
+            <div class="result-info">
+              <div class="result-meta">
+                <span id="result-pref" class="tag-pref">都道府県</span>
+                <span id="result-category" class="tag-custom">カテゴリ</span>
+              </div>
+              <h4 id="result-name" class="result-name">スポット名</h4>
+              <p id="result-desc" class="result-desc">スポットの詳細な紹介文がここに入ります。ドライブ情報やおすすめスポット、見どころなどを魅力的に説明します。</p>
+              <div id="result-address" class="result-address">
+                <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--sky-blue-500);"></i>
+                <span id="result-address-text">住所情報</span>
+              </div>
+              <div class="result-actions">
+                <a id="btn-navigation" href="" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                  <i data-lucide="navigation-2"></i>
+                  Google Maps でナビ開始
+                </a>
+                <button id="btn-share" class="btn-secondary" style="border-radius: var(--radius-md); padding: 12px 20px;">
+                  <i data-lucide="share-2"></i>
+                  旅程をコピーする
+                </button>
+                <button id="btn-retry" class="btn-secondary" style="border-radius: var(--radius-md); padding: 12px 20px;">
+                  <i data-lucide="rotate-ccw"></i>
+                  もう一度選ぶ
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+      <div class="footer-links">
+        <a href="#select-start"><i data-lucide="chevron-up" style="width: 14px; height: 14px; vertical-align: middle;"></i> トップへ戻る</a>
+      </div>
+      <p>&copy; 2026 どこかへブーン！ (Dokokade Boon!) Project - 素晴らしいドライブ旅をあなたに。</p>
+      <p style="font-size: 0.7rem; opacity: 0.7;">※本アプリは大圏距離を元にした簡易計算を行っています。実際の道路ルート・所要時間は交通状況により変動します。</p>
+    </footer>
+  </div>
+
+  <!-- ==========================================
+       スロット・決定演出用オーバーレイ (Boon! モード)
+       ========================================== -->
+  <div id="boon-overlay" class="boon-overlay">
+    <div class="boon-content">
+      <div class="boon-animation-container">
+        <div class="sky-bg">
+          <div class="cloud"></div>
+          <div class="cloud"></div>
+        </div>
+        <div class="car-icon">
+          <i data-lucide="car" style="width: 60px; height: 60px;"></i>
+        </div>
+        <div class="road-line"></div>
+        <div class="speed-meter">
+          <i data-lucide="gauge"></i>
+          <span id="meter-speed">0</span><span> km/h</span>
+        </div>
+      </div>
+      <h3 class="boon-title">どこかへブーン！</h3>
+      <p id="boon-status" class="boon-status">エンジン始動中...</p>
+    </div>
+  </div>
+
+  <!-- External Library JS (CDN) -->
+  <!-- Leaflet.js Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+          crossorigin=""></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Main Application Logic (ES Module) -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
