@@ -173,6 +173,9 @@ header {
   .main-grid {
     grid-template-columns: 1fr;
   }
+  .panel {
+    position: static; /* モバイルではスクロールに追従せず静的配置にする */
+  }
 }
 
 /* --- 左側：コントロールパネル --- */
@@ -234,7 +237,7 @@ header {
   border: 2px solid var(--sky-blue-100);
   background-color: var(--cloud-white);
   color: var(--asphalt-dark);
-  font-size: 0.95rem;
+  font-size: 16px; /* iOSでフォーム選択時に画面が自動ズームするのを防ぐ */
   font-weight: 500;
   transition: all var(--transition-fast);
   appearance: none;
@@ -912,6 +915,9 @@ header {
   .result-body {
     grid-template-columns: 1fr;
   }
+  .result-img-wrapper {
+    height: 200px; /* モバイルで画像が縦長に巨大化するのを防ぐ */
+  }
 }
 
 .result-img-wrapper {
@@ -1061,3 +1067,205 @@ footer {
 .footer-links a:hover {
   text-decoration: underline;
 }
+
+/* ==========================================================================
+   スマートフォン・モバイル極限チューニング (UX最適化)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* 全体のパディングを抑えて画面領域を最大化 */
+  .app-container {
+    padding: 12px 8px;
+  }
+
+  /* ヘッダーのレイアウトをモバイル向けにコンパクト化 */
+  header {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .logo {
+    justify-content: center;
+  }
+
+  .logo h1 {
+    font-size: 1.35rem;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logo-icon i {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header-actions {
+    justify-content: center;
+  }
+
+  .badge-location {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* 地図の高さを抑えて、スクロールなしで下部コンテンツを視認しやすくする */
+  .map-container {
+    height: 260px;
+  }
+
+  /* コントロールパネルの余白調整 */
+  .panel {
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .panel-title {
+    font-size: 1.05rem;
+    padding-bottom: 10px;
+  }
+
+  .form-group {
+    gap: 6px;
+  }
+
+  /* ドライブ時間の選択カードをモバイル向けに最適化 */
+  .time-option-card {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .time-icon-bg {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+
+  .time-label {
+    font-size: 0.85rem;
+  }
+
+  .time-desc {
+    font-size: 0.7rem;
+  }
+
+  /* テーマ選択ピルを指でタップしやすいよう調整 */
+  .theme-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .theme-option-pill {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  /* 決定ボタンのサイズ調整 */
+  .btn-boon {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  /* 結果表示の調整 */
+  .result-header {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .result-info {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .result-name {
+    font-size: 1.4rem;
+  }
+
+  .result-desc {
+    font-size: 0.85rem;
+  }
+
+  .result-actions {
+    padding-top: 12px;
+    gap: 8px;
+  }
+
+  /* 行き先候補セクションヘッダー */
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .section-header > div {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-secondary {
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+  }
+
+  #btn-final-boon {
+    width: 100% !important;
+    padding: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* 極小デバイス（古いiPhoneなど）向けの調整 */
+  .theme-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* タッチデバイス用のアクティブフィードバック (タップ時の押し込み感) */
+@media (hover: none) {
+  .btn-boon:active,
+  .btn-primary:active,
+  .btn-secondary:active,
+  .time-option-card:active,
+  .theme-option-pill:active,
+  .spot-card:active {
+    transform: scale(0.96) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform 0.08s ease !important;
+  }
+}
+
+/* スロット・決定演出用オーバーレイのモバイル最適化 */
+@media (max-width: 768px) {
+  .boon-content {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .boon-animation-container {
+    height: 120px;
+  }
+
+  .car-icon {
+    width: 50px;
+  }
+
+  .boon-title {
+    font-size: 1.6rem;
+  }
+
+  .boon-status {
+    font-size: 0.9rem;
+  }
+}
+
