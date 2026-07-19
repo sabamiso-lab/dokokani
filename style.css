@@ -1005,11 +1005,124 @@ header {
   margin-top: auto;
   border-top: 1px solid var(--sky-blue-50);
   padding-top: 16px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 480px) {
   .result-actions {
     flex-direction: column;
+  }
+}
+
+/* --- AIドライブプラン --- */
+.ai-plan-section {
+  border-top: 1px solid var(--sky-blue-100);
+  padding: 20px 24px 24px;
+  background: linear-gradient(180deg, var(--sky-blue-50) 0%, var(--pure-white) 48%);
+}
+
+.ai-plan-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.ai-plan-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--sky-blue-700);
+}
+
+.ai-plan-title i {
+  width: 18px;
+  height: 18px;
+}
+
+.ai-plan-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ai-plan-btn {
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  font-size: 0.85rem;
+}
+
+.ai-plan-hint {
+  font-size: 0.85rem;
+  color: var(--asphalt-light);
+  line-height: 1.5;
+}
+
+.ai-plan-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--sky-blue-700);
+}
+
+.ai-plan-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--sky-blue-100);
+  border-top-color: var(--sky-blue-600);
+  border-radius: 50%;
+  animation: ai-plan-spin 0.7s linear infinite;
+}
+
+@keyframes ai-plan-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ai-plan-error {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: #fff5f5;
+  color: #c0392b;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ai-plan-content {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: var(--asphalt-dark);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.ai-plan-content[hidden],
+.ai-plan-loading[hidden],
+.ai-plan-error[hidden],
+.ai-plan-actions[hidden],
+.ai-plan-hint[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 480px) {
+  .ai-plan-section {
+    padding: 16px;
+  }
+
+  .ai-plan-actions {
+    width: 100%;
+  }
+
+  .ai-plan-btn {
+    flex: 1;
+    justify-content: center;
   }
 }
 

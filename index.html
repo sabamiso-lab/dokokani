@@ -222,6 +222,10 @@
                   <i data-lucide="navigation-2"></i>
                   Google Maps でナビ開始
                 </a>
+                <button id="btn-ai-plan" class="btn-secondary" style="border-radius: var(--radius-md); padding: 12px 20px; background: var(--sky-blue-50); border-color: var(--sky-blue-100); color: var(--sky-blue-700);">
+                  <i data-lucide="sparkles"></i>
+                  AIドライブプランを作る
+                </button>
                 <button id="btn-share" class="btn-secondary" style="border-radius: var(--radius-md); padding: 12px 20px;">
                   <i data-lucide="copy"></i>
                   旅程をコピー
@@ -236,6 +240,33 @@
                 </button>
               </div>
             </div>
+          </div>
+
+          <!-- AIドライブプラン -->
+          <div id="ai-plan-section" class="ai-plan-section">
+            <div class="ai-plan-header">
+              <h4 class="ai-plan-title">
+                <i data-lucide="sparkles"></i>
+                AIドライブプラン
+              </h4>
+              <div id="ai-plan-actions" class="ai-plan-actions" hidden>
+                <button id="btn-ai-plan-retry" class="btn-secondary ai-plan-btn" type="button">
+                  <i data-lucide="refresh-cw"></i>
+                  再生成
+                </button>
+                <button id="btn-ai-plan-copy" class="btn-secondary ai-plan-btn" type="button">
+                  <i data-lucide="clipboard"></i>
+                  プランをコピー
+                </button>
+              </div>
+            </div>
+            <p id="ai-plan-hint" class="ai-plan-hint">ボタンを押すと、出発地と目的地から短い1日ドライブ案を生成します。</p>
+            <div id="ai-plan-loading" class="ai-plan-loading" hidden>
+              <span class="ai-plan-spinner" aria-hidden="true"></span>
+              <span>プランを作成中…</span>
+            </div>
+            <p id="ai-plan-error" class="ai-plan-error" hidden></p>
+            <div id="ai-plan-content" class="ai-plan-content" hidden></div>
           </div>
         </div>
 

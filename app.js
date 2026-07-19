@@ -1,6 +1,13 @@
 import { driveSpots, startingPoints } from './spots.js';
 
 // ==========================================================================
+// AI API 設定 (Ollama 互換)
+// ==========================================================================
+const AI_CHAT_API_URL = 'https://llm-api.sabamiso-lab.uk/api/chat';
+const AI_CHAT_MODEL = 'gemma4:latest';
+const AI_CHAT_TIMEOUT_MS = 90000;
+
+// ==========================================================================
 // 状態管理 (State)
 // ==========================================================================
 let currentMap = null;
@@ -9,6 +16,8 @@ let candidateMarkers = [];
 let routePolyline = null;
 let currentCandidates = [];
 let selectedDestination = null;
+let aiPlanText = '';
+let aiPlanAbortController = null;
 
 // デフォルトの出発地 (長野県塩尻市)
 let currentStartPoint = startingPoints[0];
@@ -64,6 +73,9 @@ function setupEventListeners() {
   const btnShare = document.getElementById('btn-share');
   const btnCopyLink = document.getElementById('btn-copy-link');
   const btnUnlockShare = document.getElementById('btn-unlock-share');
+  const btnAiPlan = document.getElementById('btn-ai-plan');
+  const btnAiPlanRetry = document.getElementById('btn-ai-plan-retry');
+  const btnAiPlanCopy = document.getElementById('btn-ai-plan-copy');
 
   // 出発地変更時
   selectStart.addEventListener('change', (e) => {
@@ -97,6 +109,11 @@ function setupEventListeners() {
 
   // 共有ロック解除ボタン
   btnUnlockShare.addEventListener('click', handleUnlockShare);
+
+  // AIドライブプラン生成
+  btnAiPlan.addEventListener('click', () => generateAiDrivePlan());
+  btnAiPlanRetry.addEventListener('click', () => generateAiDrivePlan());
+  btnAiPlanCopy.addEventListener('click', copyAiDrivePlan);
 }
 
 // GPSステータスとバッジの更新
@@ -676,6 +693,7 @@ function showFinalResult(spot, index) {
 
   // 3. 結果表示領域を表示
   resultSection.style.display = 'block';
+  resetAiPlanUI();
   if (window.lucide) {
     window.lucide.createIcons();
   }
@@ -804,6 +822,204 @@ function triggerConfetti() {
 }
 
 // ==========================================================================
+// AIドライブプラン生成 (Ollama /api/chat)
+// ==========================================================================
+function resetAiPlanUI() {
+  if (aiPlanAbortController) {
+    aiPlanAbortController.abort();
+    aiPlanAbortController = null;
+  }
+  aiPlanText = '';
+
+  const hint = document.getElementById('ai-plan-hint');
+  const loading = document.getElementById('ai-plan-loading');
+  const error = document.getElementById('ai-plan-error');
+  const content = document.getElementById('ai-plan-content');
+  const actions = document.getElementById('ai-plan-actions');
+  const btnGenerate = document.getElementById('btn-ai-plan');
+
+  if (hint) hint.hidden = false;
+  if (loading) loading.hidden = true;
+  if (error) {
+    error.hidden = true;
+    error.textContent = '';
+  }
+  if (content) {
+    content.hidden = true;
+    content.textContent = '';
+  }
+  if (actions) actions.hidden = true;
+  if (btnGenerate) btnGenerate.disabled = false;
+}
+
+function setAiPlanLoading(isLoading) {
+  const hint = document.getElementById('ai-plan-hint');
+  const loading = document.getElementById('ai-plan-loading');
+  const error = document.getElementById('ai-plan-error');
+  const content = document.getElementById('ai-plan-content');
+  const actions = document.getElementById('ai-plan-actions');
+  const btnGenerate = document.getElementById('btn-ai-plan');
+  const btnRetry = document.getElementById('btn-ai-plan-retry');
+
+  if (hint) hint.hidden = true;
+  if (loading) loading.hidden = !isLoading;
+  if (error) error.hidden = true;
+  if (isLoading && content) content.hidden = true;
+  if (actions) actions.hidden = isLoading || !aiPlanText;
+  if (btnGenerate) btnGenerate.disabled = isLoading;
+  if (btnRetry) btnRetry.disabled = isLoading;
+}
+
+function showAiPlanError(message) {
+  const loading = document.getElementById('ai-plan-loading');
+  const error = document.getElementById('ai-plan-error');
+  const content = document.getElementById('ai-plan-content');
+  const actions = document.getElementById('ai-plan-actions');
+  const btnGenerate = document.getElementById('btn-ai-plan');
+  const btnRetry = document.getElementById('btn-ai-plan-retry');
+
+  if (loading) loading.hidden = true;
+  if (content) content.hidden = true;
+  if (error) {
+    error.hidden = false;
+    error.textContent = message;
+  }
+  if (actions) actions.hidden = false;
+  if (btnGenerate) btnGenerate.disabled = false;
+  if (btnRetry) btnRetry.disabled = false;
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function showAiPlanContent(text) {
+  aiPlanText = text;
+  const loading = document.getElementById('ai-plan-loading');
+  const error = document.getElementById('ai-plan-error');
+  const content = document.getElementById('ai-plan-content');
+  const actions = document.getElementById('ai-plan-actions');
+  const btnGenerate = document.getElementById('btn-ai-plan');
+  const btnRetry = document.getElementById('btn-ai-plan-retry');
+
+  if (loading) loading.hidden = true;
+  if (error) {
+    error.hidden = true;
+    error.textContent = '';
+  }
+  if (content) {
+    content.hidden = false;
+    content.textContent = text;
+  }
+  if (actions) actions.hidden = false;
+  if (btnGenerate) btnGenerate.disabled = false;
+  if (btnRetry) btnRetry.disabled = false;
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function buildAiPlanMessages(spot) {
+  const distanceKm = Math.round(spot.distance);
+  const driveTime = estimateDriveTime(spot.distance);
+  const categoryName = getCategoryName(spot.category);
+
+  const system = [
+    'あなたは日本のドライブ計画アシスタントです。',
+    '与えられたスポット情報だけを根拠に、現実的で短い1日ドライブプランを日本語で作ってください。',
+    '出力は箇条書き中心で、次を含めてください: 午前の過ごし方、午後の過ごし方、寄り道案を1つ、注意点を1つ。',
+    'DBにない具体的な店名・営業時間・料金は断定しないでください。',
+    '前置きや締めの挨拶は不要です。'
+  ].join('');
+
+  const user = [
+    `出発地: ${currentStartPoint.name}`,
+    `目的地: ${spot.name}（${spot.pref} / ${categoryName}）`,
+    `片道距離: 約${distanceKm} km`,
+    `推定所要時間: ${driveTime}`,
+    `紹介文: ${spot.description}`,
+    `住所: ${spot.address}`,
+    '',
+    '上記を踏まえて、今日のドライブプランを作成してください。'
+  ].join('\n');
+
+  return [
+    { role: 'system', content: system },
+    { role: 'user', content: user }
+  ];
+}
+
+async function generateAiDrivePlan() {
+  if (!selectedDestination) return;
+
+  if (aiPlanAbortController) {
+    aiPlanAbortController.abort();
+  }
+  aiPlanAbortController = new AbortController();
+  const { signal } = aiPlanAbortController;
+  const timeoutId = setTimeout(() => aiPlanAbortController.abort(), AI_CHAT_TIMEOUT_MS);
+
+  setAiPlanLoading(true);
+
+  try {
+    const response = await fetch(AI_CHAT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: AI_CHAT_MODEL,
+        stream: false,
+        think: false,
+        messages: buildAiPlanMessages(selectedDestination)
+      }),
+      signal
+    });
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const text = data?.message?.content?.trim();
+    if (!text) {
+      throw new Error('empty response');
+    }
+
+    showAiPlanContent(text);
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      // タイムアウトのみ表示。リセットや再生成による中断は無視する
+      if (aiPlanAbortController?.signal === signal) {
+        showAiPlanError('生成がタイムアウトしました。もう一度お試しください。');
+      }
+      return;
+    }
+    console.error('AIプラン生成失敗:', err);
+    showAiPlanError('プランを生成できませんでした。通信状況を確認して再試行してください。');
+  } finally {
+    clearTimeout(timeoutId);
+    if (aiPlanAbortController?.signal === signal) {
+      aiPlanAbortController = null;
+    }
+  }
+}
+
+function copyAiDrivePlan() {
+  if (!aiPlanText || !selectedDestination) return;
+
+  const text =
+`🚙 AIドライブプラン（どこかへブーン！）
+
+📍 出発地：${currentStartPoint.name}
+🏁 目的地：${selectedDestination.name}（${selectedDestination.pref}）
+
+${aiPlanText}`;
+
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      alert('AIドライブプランをクリップボードにコピーしました！');
+    })
+    .catch(err => {
+      console.error('コピー失敗:', err);
+      alert('コピーできませんでした。画面のプラン文を直接選択してコピーしてください。');
+    });
+}
+
+// ==========================================================================
 // 画面リセットとユーティリティ (Reset & Copy)
 // ==========================================================================
 function resetToHome() {
@@ -817,6 +1033,7 @@ function resetToHome() {
 
   // 結果セクションのみ非表示にし、候補セクションは維持（再抽選できるように）
   document.getElementById('state-result').style.display = 'none';
+  resetAiPlanUI();
 
   // コントロールの活性化
   document.getElementById('btn-reshuffle').style.disabled = false;
@@ -978,6 +1195,7 @@ function showFinalResultStatic(spot, index) {
   navBtn.href = `https://www.google.com/maps/dir/?api=1&origin=${currentStartPoint.lat},${currentStartPoint.lng}&destination=${spot.lat},${spot.lng}&travelmode=driving`;
 
   resultSection.style.display = 'block';
+  resetAiPlanUI();
   if (window.lucide) {
     window.lucide.createIcons();
   }

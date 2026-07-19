@@ -28,6 +28,8 @@ JR東日本の「どこかにビューン！」をリスペクトし、自動車
   - スピードメーター（km/h）が急上昇・急ブレーキを踏む数値連動と、エンジン始動〜目的地接近のステータステキストが走り、決定の瞬間に豪華な紙吹雪（Confetti）でお祝いします。
 - **🗺️ Google Maps ナビ連携＆旅程シェア**
   - 決定した目的地に対して、出発地からの車ルートナビを開くURLを自動生成。さらにSNSなどにすぐシェアできるよう、絵文字付きの旅程テキストを1クリックでコピーできます。
+- **✨ AIドライブプラン生成**
+  - 目的地決定後、ローカルLLM（`https://llm-api.sabamiso-lab.uk/api/chat`）で午前〜夕方の過ごし方・寄り道・注意点を生成。再生成・コピーにも対応。
 
 ---
 
@@ -39,6 +41,31 @@ JR東日本の「どこかにビューン！」をリスペクトし、自動車
 - **Effects**: Canvas-Confetti (紙吹雪演出), Animate.css (フェード演出)
 - **Typography**: Google Fonts (Outfit & Noto Sans JP)
 - **Hosting**: GitHub Pages (完全無料・静的ホスティング)
+- **AI**: 自前 Ollama 互換 API（`gemma4:latest`）でドライブプラン生成
+
+---
+
+## 🌐 Cloudflare CORS（GitHub Pages 公開時）
+
+ブラウザから `https://sabamiso-lab.github.io` 経由で LLM API を呼ぶには、Cloudflare 側でオリジン許可が必要です（`localhost` だけ通っていても本番は 403 になり得ます）。
+
+1. **Security → WAF / Custom rules / Bots**  
+   `Origin: https://sabamiso-lab.github.io` の POST / OPTIONS を弾いていないか確認。API サブドメインは Bot Fight の Skip も検討。
+2. **Rules → Snippets（または Worker）**（推奨）  
+   Ollama は OPTIONS に 405 を返すため、プリフライトは Cloudflare で完結させる。
+   - 許可: `http://localhost:8000`, `https://sabamiso-lab.github.io`
+   - OPTIONS → 204 + CORS ヘッダー
+   - POST 応答にも `Access-Control-Allow-Origin`（リクエスト Origin をエコー） / `Allow-Methods: POST, OPTIONS` / `Allow-Headers: Content-Type` / `Vary: Origin`
+3. **Transform Rules → Modify Response Header** だけだと OPTIONS 405 は直らないので、プリフライト用 Snippet と併用すること。
+
+確認コマンド例:
+
+```bash
+curl -i -X OPTIONS https://llm-api.sabamiso-lab.uk/api/chat \
+  -H "Origin: https://sabamiso-lab.github.io" \
+  -H "Access-Control-Request-Method: POST" \
+  -H "Access-Control-Request-Headers: content-type"
+```
 
 ---
 
