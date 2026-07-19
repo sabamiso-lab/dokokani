@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. GPSの自動初期試行 (可能であれば)
   tryAutodetectLocation();
+
+  // 5. 共有URLからの復元チェック
+  checkSharedURL();
 });
 
 // 出発地セレクトボックスの初期化
@@ -59,6 +62,8 @@ function setupEventListeners() {
   const btnGps = document.getElementById('btn-gps');
   const btnRetry = document.getElementById('btn-retry');
   const btnShare = document.getElementById('btn-share');
+  const btnCopyLink = document.getElementById('btn-copy-link');
+  const btnUnlockShare = document.getElementById('btn-unlock-share');
 
   // 出発地変更時
   selectStart.addEventListener('change', (e) => {
@@ -86,6 +91,12 @@ function setupEventListeners() {
 
   // シェア（旅程コピー）ボタン
   btnShare.addEventListener('click', copyItinerary);
+
+  // 共有リンクコピーボタン
+  btnCopyLink.addEventListener('click', copyShareLink);
+
+  // 共有ロック解除ボタン
+  btnUnlockShare.addEventListener('click', handleUnlockShare);
 }
 
 // GPSステータスとバッジの更新
@@ -819,6 +830,7 @@ function resetToHome() {
 function copyItinerary() {
   if (!selectedDestination) return;
 
+  const shareUrl = generateShareURL();
   const text = 
 `🚙💨 「どこかへブーン！」でドライブ目的地が決定しました！
 
@@ -827,6 +839,9 @@ function copyItinerary() {
 📏 距離：約 ${Math.round(selectedDestination.distance)} km
 ⏱️ 所要時間：${estimateDriveTime(selectedDestination.distance)}
 
+🗺️ 共有された旅程を見る：
+🔗 ${shareUrl}
+
 💡 スポット紹介：${selectedDestination.description}
 🗺️ 住所：${selectedDestination.address}
 
@@ -834,10 +849,189 @@ function copyItinerary() {
 
   navigator.clipboard.writeText(text)
     .then(() => {
-      alert('ドライブ旅程をクリップボードにコピーしました！SNS等でシェアしてください 🚗✨');
+      alert('ドライブ旅程（共有リンク付き）をクリップボードにコピーしました！SNS等でシェアしてください 🚗✨');
     })
     .catch(err => {
       console.error('コピー失敗:', err);
       alert('コピーできませんでした。恐れ入りますが、画面からテキストを直接選択してコピーしてください。');
     });
 }
+
+// 共有用URLの生成
+function generateShareURL() {
+  if (!selectedDestination || currentCandidates.length !== 4) return '';
+  const baseUrl = window.location.origin + window.location.pathname;
+  const candidateIds = currentCandidates.map(c => c.id).join(',');
+  return `${baseUrl}?start=${currentStartPoint.id}&candidates=${candidateIds}&dest=${selectedDestination.id}`;
+}
+
+// 共有用URLのみをコピー
+function copyShareLink() {
+  const url = generateShareURL();
+  if (!url) return;
+
+  navigator.clipboard.writeText(url)
+    .then(() => {
+      alert('共有リンクをクリップボードにコピーしました！友達に送ってみましょう 🚗✨');
+    })
+    .catch(err => {
+      console.error('コピー失敗:', err);
+      alert('コピーできませんでした。');
+    });
+}
+
+// URLパラメータから状態を復元する
+function checkSharedURL() {
+  const params = new URLSearchParams(window.location.search);
+  const startId = params.get('start');
+  const candidateIdsStr = params.get('candidates');
+  const destId = params.get('dest');
+
+  if (startId && candidateIdsStr && destId) {
+    const candidateIds = candidateIdsStr.split(',');
+    if (candidateIds.length !== 4) return;
+
+    // 1. 出発地の復元
+    const start = startingPoints.find(p => p.id === startId);
+    if (!start) return;
+    currentStartPoint = start;
+    document.getElementById('select-start').value = startId;
+    updateLocationBadge(start.name);
+
+    // 2. 候補地の復元
+    const candidates = [];
+    for (const cid of candidateIds) {
+      const spot = driveSpots.find(s => s.id === cid);
+      if (!spot) return;
+      const dist = getHaversineDistance(start.lat, start.lng, spot.lat, spot.lng);
+      candidates.push({ ...spot, distance: dist });
+    }
+    currentCandidates = candidates;
+
+    // 3. 目的地の復元
+    const dest = driveSpots.find(s => s.id === destId);
+    if (!dest) return;
+    const destDist = getHaversineDistance(start.lat, start.lng, dest.lat, dest.lng);
+    selectedDestination = { ...dest, distance: destDist };
+
+    // 4. UI状態の更新 (共有ロックモード)
+    enableShareLockUI();
+
+    // 5. 描画
+    renderCandidates(currentCandidates);
+    
+    // 候補カードの選択状態を反映
+    const finalIndex = currentCandidates.findIndex(c => c.id === destId);
+    const cards = document.querySelectorAll('.spot-card');
+    cards.forEach((c, idx) => {
+      if (idx !== finalIndex) {
+        c.classList.add('eliminated');
+      } else {
+        c.classList.add('selected-candidate');
+      }
+    });
+
+    // ビューの切り替え
+    document.getElementById('state-empty').style.display = 'none';
+    document.getElementById('state-map').style.display = 'block';
+    document.getElementById('state-candidates').style.display = 'block';
+
+    setTimeout(() => {
+      if (currentMap) {
+        currentMap.invalidateSize();
+      }
+      // 地図描画
+      highlightRouteOnMap(currentStartPoint, selectedDestination);
+      
+      // 結果セクション表示 (演出なしで即時表示)
+      showFinalResultStatic(selectedDestination, finalIndex);
+    }, 100);
+  }
+}
+
+// 最終結果を演出なしで即時表示する (共有URL復元用)
+function showFinalResultStatic(spot, index) {
+  const resultSection = document.getElementById('state-result');
+  const reshuffleHeader = document.getElementById('btn-reshuffle');
+  const finalBoonHeader = document.getElementById('btn-final-boon');
+
+  // ボタン類を無効化
+  reshuffleHeader.style.disabled = true;
+  finalBoonHeader.style.disabled = true;
+
+  const resultImg = document.getElementById('result-img');
+  resultImg.onerror = function() {
+    this.onerror = null;
+    this.src = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80';
+  };
+  resultImg.src = spot.image;
+  document.getElementById('result-pref').textContent = spot.pref;
+  document.getElementById('result-category').textContent = getCategoryName(spot.category);
+  document.getElementById('result-name').textContent = spot.name;
+  document.getElementById('result-desc').textContent = spot.description;
+  document.getElementById('result-address-text').textContent = spot.address;
+
+  const distBadge = document.getElementById('result-dist-badge');
+  distBadge.innerHTML = `<i data-lucide="gauge" style="width:14px; height:14px;"></i> 約 ${Math.round(spot.distance)} km | 推定時間 ${estimateDriveTime(spot.distance)}`;
+
+  const navBtn = document.getElementById('btn-navigation');
+  navBtn.href = `https://www.google.com/maps/dir/?api=1&origin=${currentStartPoint.lat},${currentStartPoint.lng}&destination=${spot.lat},${spot.lng}&travelmode=driving`;
+
+  resultSection.style.display = 'block';
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+
+  // 友達がアクセスした瞬間もお祝いクラッカーを飛ばす！
+  triggerConfetti();
+}
+
+// 共有ロックUIの有効化
+function enableShareLockUI() {
+  const panel = document.getElementById('control-panel');
+  const alertBox = document.getElementById('share-alert');
+  
+  panel.classList.add('sharing-locked');
+  alertBox.style.display = 'flex';
+  
+  // コントロール無効化
+  document.getElementById('select-start').disabled = true;
+  document.getElementById('btn-gps').disabled = true;
+  document.querySelectorAll('input[name="drive-time"]').forEach(input => input.disabled = true);
+  document.querySelectorAll('input[name="theme"]').forEach(input => input.disabled = true);
+  document.getElementById('btn-draw').disabled = true;
+}
+
+// 共有ロックUIの無効化
+function disableShareLockUI() {
+  const panel = document.getElementById('control-panel');
+  const alertBox = document.getElementById('share-alert');
+  
+  panel.classList.remove('sharing-locked');
+  alertBox.style.display = 'none';
+  
+  // コントロール有効化
+  document.getElementById('select-start').disabled = false;
+  document.getElementById('btn-gps').disabled = false;
+  document.querySelectorAll('input[name="drive-time"]').forEach(input => input.disabled = false);
+  document.querySelectorAll('input[name="theme"]').forEach(input => input.disabled = false);
+  document.getElementById('btn-draw').disabled = false;
+}
+
+// 共有ロックの解除と初期状態へのリセット
+function handleUnlockShare() {
+  // URLパラメータをクリア
+  const url = new URL(window.location.href);
+  url.search = '';
+  window.history.pushState({}, '', url.toString());
+  
+  // UIロック解除
+  disableShareLockUI();
+  
+  // 通常のホームに戻す
+  resetToHome();
+  
+  // 設定エリアへスクロール
+  document.getElementById('control-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+

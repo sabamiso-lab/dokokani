@@ -48,7 +48,20 @@
     <!-- メインコンテンツ -->
     <main class="main-grid">
       <!-- 左側：コントロールパネル -->
-      <aside class="panel">
+      <aside class="panel" id="control-panel">
+        <!-- 共有モード時のアラート表示 -->
+        <div id="share-alert" class="share-alert" style="display: none;">
+          <div class="share-alert-header">
+            <span class="share-alert-badge">
+              <i data-lucide="share-2"></i> 共有された旅程
+            </span>
+          </div>
+          <p class="share-alert-text">友達が決定した目的地に固定されています。</p>
+          <button id="btn-unlock-share" class="btn-unlock">
+            <i data-lucide="sparkles"></i> 自分でガチャを引く
+          </button>
+        </div>
+
         <h2 class="panel-title">
           <i data-lucide="compass"></i>
           ドライブ条件設定
@@ -210,8 +223,12 @@
                   Google Maps でナビ開始
                 </a>
                 <button id="btn-share" class="btn-secondary" style="border-radius: var(--radius-md); padding: 12px 20px;">
-                  <i data-lucide="share-2"></i>
-                  旅程をコピーする
+                  <i data-lucide="copy"></i>
+                  旅程をコピー
+                </button>
+                <button id="btn-copy-link" class="btn-secondary" style="border-radius: var(--radius-md); padding: 12px 20px; background: var(--sky-blue-50); border-color: var(--sky-blue-100); color: var(--sky-blue-700);">
+                  <i data-lucide="link"></i>
+                  共有リンクをコピー
                 </button>
                 <button id="btn-retry" class="btn-secondary" style="border-radius: var(--radius-md); padding: 12px 20px;">
                   <i data-lucide="rotate-ccw"></i>
