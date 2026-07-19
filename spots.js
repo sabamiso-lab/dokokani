@@ -38,7 +38,7 @@ export const driveSpots = [
     lat: 36.1026,
     lng: 138.1691,
     description: "日本を代表する絶景ドライビングルート。車窓いっぱいに広がる緑の草原と爽やかな高原の風を浴びながら、アップダウンのあるワインディングを疾走できます。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["ビーナスライン", "緑の草原", "王道ロード"],
     address: "長野県諏訪市四賀霧ヶ峰"
   },
@@ -170,7 +170,7 @@ export const driveSpots = [
     lat: 36.6953,
     lng: 138.3149,
     description: "浮世絵師・葛飾北斎が晩年を過ごした「歴史とアート」の美しい小都市。名物の栗鹿ノ子やモンブランを堪能しながら、和モダンでお洒落なオープンガーデンを散策できます。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["葛飾北斎", "栗スイーツ", "美しい路地裏"],
     address: "長野県上高井郡小布施町大字小布施"
   },
@@ -230,7 +230,7 @@ export const driveSpots = [
     lat: 35.8309,
     lng: 138.0640,
     description: "「天下第一の桜」と称される、日本屈指の桜の名所。この地特有のやや小ぶりでピンクが濃い「タカトオコヒガンザクラ」約1500本が一面に咲き乱れる春は息をのむ美しさです。",
-    image: "https://images.unsplash.com/photo-1522263002290-412a652d7df9?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
     tags: ["天下第一の桜", "ピンクの雲海", "日本の城址"],
     address: "長野県伊那市高遠町東高遠"
   },
@@ -290,7 +290,7 @@ export const driveSpots = [
     lat: 36.3812,
     lng: 137.8485,
     description: "いわさきちひろと世界の絵本画家の作品を収蔵する美術館。安曇野の美しく広大な田園風景に溶け込む素朴な木造建築で、周囲の芝生公園でのんびりドライブの休憩を楽しめます。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["安曇野の自然", "絵本美術館", "和みのウッドデッキ"],
     address: "長野県北安曇郡松川村西原3358-24"
   },
@@ -416,7 +416,7 @@ export const driveSpots = [
     lat: 36.4710,
     lng: 138.8785,
     description: "映画やアニメ（イニシャルD）の聖地として有名なワインディングロード。車で特定の速度で走ると道路から音楽（静かな湖畔）が聞こえるメロディラインや、富士山のような榛名富士が見どころ。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["イニD走り屋聖地", "榛名富士とカルデラ湖", "音の鳴る道路"],
     address: "群馬県高崎市榛名湖町"
   },
@@ -514,7 +514,7 @@ export const driveSpots = [
     lat: 35.7505,
     lng: 136.9560,
     description: "城下町中に清らかな水路が張り巡らされた「名水のまち」。日本初の環境省認定名水百選「宗祇水（そうぎすい）」や、夏の長い「郡上おどり」が有名。古い民家と川のせせらぎが極上の癒やし空間です。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["名水湧き出る町", "宗祇水の源流", "夏の郡上おどり"],
     address: "岐阜県郡上市八幡町殿町"
   },
@@ -613,7 +613,7 @@ export const driveSpots = [
     lat: 36.5621,
     lng: 136.6628,
     description: "国の特別名勝であり、水戸の偕楽園、岡山の後楽園と並ぶ日本三名園の一つ。ことじ灯籠や、冬に雪の重みから老松を守るための芸術的な「雪吊り」の景観は日本美の極みです。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["日本三名園", "冬の雪吊り芸術", "金沢城公園隣接"],
     address: "石川県金沢市兼六町1"
   },
@@ -751,7 +751,7 @@ export const driveSpots = [
     lat: 35.4795,
     lng: 136.0205,
     description: "マキノ高原へ向かって真っ直ぐ伸びる、全長約2.4kmにわたるシンメトリーな一本道。道路の両脇に植えられた約500本の巨大なメタセコイアが、夏はまぶしい緑、秋は美しい赤褐色に染まります。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["約2.4kmの対称並木道", "新緑・紅葉の絶景トンネル", "琵琶湖北岸ツーリング"],
     address: "滋賀県高島市マキノ町蛭口"
   },
@@ -815,7 +815,7 @@ export const driveSpots = [
     lat: 37.3339,
     lng: 139.8614,
     description: "江戸時代の面影を残す、萱葺き（かやぶき）屋根の宿場町。名物の冷たい「ねぎそば」は、箸の代わりに一本の長ネギをまるごと使ってそばをすくい、ねぎを薬味としてかじりながら味わいます。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["萱葺き古民家並木", "ネギ一本丸ごとそば", "会津ドライブめぐり"],
     address: "福島県南会津郡下郷町大字大内"
   },
@@ -875,7 +875,7 @@ export const driveSpots = [
     lat: 43.5853,
     lng: 142.4245,
     description: "パッチワークのようななだらかな丘陵地帯。カラフルな花々が帯状にどこまでも続く「四季彩の丘」や、防風林が美しいラインを描く「マイルドセブンの丘」など、北海道らしい壮大な直線ドライブの楽園です。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["美瑛パッチワーク丘陵", "虹色のお花畑四季彩", "極上の直線砂利道"],
     address: "北海道上川郡美瑛町新星第三"
   },
@@ -987,7 +987,7 @@ export const driveSpots = [
     lat: 36.8222,
     lng: 136.7570,
     description: "日本で唯一、一般の乗用車やバイクで波打ち際の砂浜を走ることができる超爽快ドライビングルート。きめ細かい砂が固く締まっており、潮風を感じながら並走する爽快感は格別です。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["日本唯一の砂浜道路", "波打ち際マイカードライブ", "能登半島エントランス"],
     address: "石川県羽咋市千里浜町"
   },
@@ -1051,7 +1051,7 @@ export const driveSpots = [
     lat: 33.8615,
     lng: 135.9730,
     description: "「日本一の棚田」と称される、約1,340枚の小さな水田が幾何学模様を描く巨大な棚田群。熊野の深い緑の山々に囲まれ、水が張られた春の夕暮れは鏡のように輝く絶景となります。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["日本一の棚田群", "熊野の歴史自然", "幾何学模様의鏡水面"],
     address: "三重県熊野市紀和町丸山"
   },
@@ -1075,7 +1075,7 @@ export const driveSpots = [
     lat: 34.3533,
     lng: 130.8905,
     description: "車のCMでも度々登場する、日本屈指の絶景道路。コバルトブルーに輝く日本海の上を真っ直ぐ突き抜ける全長1,780mの白い橋は、車で走るだけで天国を行くような感動を味わえます。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["コバルトブルーの海を疾走", "日本一美しい道路橋", "白い砂浜角島灯台"],
     address: "山口県下関市豊北町大字神田"
   },
@@ -1419,7 +1419,7 @@ export const driveSpots = [
     lat: 38.0410,
     lng: 138.2580,
     description: "江戸時代から平成元年まで約400年間採掘が続いた、日本最大の金銀山遺跡。坑道跡を巡るコースでは、等身大の人形が当時の採掘作業をリアルに再現し、歴史の重みに引き込まれます。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["日本最大の金山", "手掘り坑道の歴史", "純金バー持ち上げに挑戦"],
     address: "新潟県佐渡市下相川1305"
   },
@@ -1443,7 +1443,7 @@ export const driveSpots = [
     lat: 37.4260,
     lng: 136.9620,
     description: "日本海に面した急斜面に1,004枚の小さな水田が幾何学模様のように重なり合う絶景の棚田。夕日が日本海に沈むと、棚田の一枚一枚が茜色にきらめき、絵画のような絶景を描き出します。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["日本海に面する千枚田", "棚田の水鏡夕日", "世界農業遺産"],
     address: "石川県輪島市白米町ハ部99"
   },
@@ -1527,7 +1527,7 @@ export const driveSpots = [
     lat: 35.4180,
     lng: 136.4100,
     description: "標高1,377mの伊吹山の山頂付近へと駆け上がる、全長17kmのダイナミックな山岳絶景ロード。琵琶湖を見下ろしながら走るスカイラインと、夏には一面に咲き誇る天空のお花畑が見どころ。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["琵琶湖スカイビュー", "標高1377mお花畑", "大山岳ワインディング"],
     address: "岐阜県不破郡関ケ原町大字関ケ原"
   },
@@ -1551,7 +1551,7 @@ export const driveSpots = [
     lat: 35.1380,
     lng: 136.0880,
     description: "豊臣秀次が築いた八幡堀に広がる、美しい水郷地帯。よしきりに囲まれた迷路のような水路を、船頭が手漕ぎで操る木造舟でさらさらとめぐる時間は、時間を忘れる静かな風情そのものです。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["手漕ぎの情緒和舟", "八幡堀蔵造り街並み", "近江牛の逸品"],
     address: "滋賀県近江八幡市北之庄町"
   },
@@ -1599,7 +1599,7 @@ export const driveSpots = [
     lat: 34.6850,
     lng: 135.8400,
     description: "世界最大級の木造建築である「東大寺大仏殿」があり、中には日本最大の大仏が鎮座します。周囲の芝生広場には、約1200頭の野生のシカが自由に歩き回り、鹿せんべいやりを楽しめます。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["世界最大の巨大大仏", "野生の愛らしいシカ達", "若草山の一望"],
     address: "奈良県奈良市雑司町406-1"
   },
@@ -1675,7 +1675,7 @@ export const driveSpots = [
     lat: 35.3780,
     lng: 133.1900,
     description: "近代日本画とともに、20年連続で「日本一の庭園」に選出され世界的人気を誇る美術館。大きな窓枠から眺める計算され尽くした名園は、まさに一枚の巨大な「生きた日本画額縁」です。",
-    image: "https://images.unsplash.com/photo-1490806869338-f2478b1a5b33?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
     tags: ["日本一の極美日本庭園", "額縁の生きた日本画", "横山大観のコレクション"],
     address: "島根県安来市古川町320"
   },
@@ -1687,7 +1687,7 @@ export const driveSpots = [
     lat: 34.4100,
     lng: 133.1970,
     description: "本州の尾道から四国の今治まで、瀬戸内海の美しい島々を7つの巨大な橋で渡る、世界屈指の美しい海中ロード。尾道の「千光寺公園」からは、絵の具のような多島美を一望できます。",
-    image: "https://images.unsplash.com/photo-1500627869374-13cd993b1115?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
     tags: ["多島美を駆ける橋", "尾道の文学坂道", "瀬戸内レモン特産"],
     address: "広島県尾道市東土堂町15-1"
   },

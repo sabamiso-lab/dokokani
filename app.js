@@ -335,7 +335,7 @@ function renderCandidates(candidates) {
 
     card.innerHTML = `
       <div class="card-img-wrapper">
-        <img src="${spot.image}" alt="${spot.name}">
+        <img src="${spot.image}" alt="${spot.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80';">
         <span class="card-tag">${categoryName}</span>
       </div>
       <div class="card-body">
@@ -640,7 +640,12 @@ function showFinalResult(spot, index) {
   finalBoonHeader.style.disabled = true;
 
   // 1. 結果カードへの情報挿入
-  document.getElementById('result-img').src = spot.image;
+  const resultImg = document.getElementById('result-img');
+  resultImg.onerror = function() {
+    this.onerror = null;
+    this.src = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80';
+  };
+  resultImg.src = spot.image;
   document.getElementById('result-pref').textContent = spot.pref;
   document.getElementById('result-category').textContent = getCategoryName(spot.category);
   document.getElementById('result-name').textContent = spot.name;
